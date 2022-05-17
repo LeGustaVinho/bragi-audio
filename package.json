@@ -1,0 +1,24 @@
+{
+  "name": "com.legustavinho.legendary-tools-bragi-audio",
+  "displayName": "Legendary Tools - Bragi Audio System",
+  "version": "1.0.0",
+  "unity": "2019.4",
+  "type": "library",
+  "keywords": [],
+  "category": "Extensions",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/LeGustaVinho/bragi-audio.git"
+  },
+  "dependencies": {
+    "com.legustavinho.legendary-tools-common": "https://github.com/LeGustaVinho/legendary-tools-common.git",
+	"com.legustavinho.legendary-tools-singleton": "https://github.com/LeGustaVinho/singleton.git",
+	"com.legustavinho.legendary-tools-pool": "https://github.com/LeGustaVinho/pool.git",
+	"com.legustavinho.legendary-tools-asset-provider": "https://github.com/LeGustaVinho/asset-provider.git",
+	"com.legustavinho.legendary-tools-monobehaviour-facade": "https://github.com/LeGustaVinho/monobehaviour-facade.git"
+  },
+  "author": {
+    "name": "LeGustaVinho",
+    "email": "not available"
+  }
+}
