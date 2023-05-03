@@ -13,21 +13,8 @@ namespace LegendaryTools.Bragi
         public abstract AudioHandler[] Play(Transform parent, AudioSettings overrideSettings = null, bool allowFading = true);
     }
 
-    public abstract class AudioConfigBaseAssetLoader : AudioConfigBase, IAssetLoaderConfig
+    public abstract class AudioConfigBaseAssetLoader : AudioConfigBase
     {
-        public abstract bool PreLoad { get; set; }
-        public abstract bool DontUnloadAfterLoad { get; set; }
-        public abstract AssetProvider LoadingStrategy { get; set; }
-        public abstract object AssetReference { get; }
-        public abstract bool IsInScene { get; }
-        public abstract Object LoadedAsset { get; }
-        public abstract bool IsLoaded { get; }
-        public abstract bool IsLoading { get; }
-        public abstract IEnumerator Load();
-
-        public abstract void Unload();
-
-        public abstract void SetAsSceneAsset(Object sceneInstanceInScene);
-        public abstract void ClearLoadedAssetRef();
+        public abstract IAssetLoaderConfig AssetLoaderConfig { get; }
     }
 }

@@ -110,7 +110,7 @@ namespace LegendaryTools.Bragi
             ApplyAudioSettingsToSource(audioSource, settings);
             IsInitialized = true;
 
-            if (Config.IsLoaded)
+            if (Config.AssetLoaderConfig.IsLoaded)
             {
                 OnAudioLoaded();
             }
@@ -213,7 +213,7 @@ namespace LegendaryTools.Bragi
 
         private void OnAudioLoaded()
         {
-            audioSource.clip = (AudioClip)Config.LoadedAsset;
+            audioSource.clip = (AudioClip)Config.AssetLoaderConfig.LoadedAsset;
 
             if (!IsPaused)
             {
@@ -232,15 +232,15 @@ namespace LegendaryTools.Bragi
         
         private IEnumerator WaitAudioLoad(Action onAudioLoadCompleted)
         {
-            if (!Config.IsLoaded)
+            if (!Config.AssetLoaderConfig.IsLoaded)
             {
-                if (!Config.IsLoading) //Prevents loading, because the asset is being loaded
+                if (!Config.AssetLoaderConfig.IsLoading) //Prevents loading, because the asset is being loaded
                 {
-                    yield return Config.Load();
+                    yield return Config.AssetLoaderConfig.Load();
                 }
                 else
                 {
-                    yield return new WaitUntil(() => Config.IsLoaded);
+                    yield return new WaitUntil(() => Config.AssetLoaderConfig.IsLoaded);
                 }
             }
             
@@ -294,7 +294,7 @@ namespace LegendaryTools.Bragi
                 {
                     if (Settings.FadeOutDuration > 0)
                     {
-                        if (Time >= ((AudioClip)Config.LoadedAsset).length - Settings.FadeOutDuration)
+                        if (Time >= ((AudioClip)Config.AssetLoaderConfig.LoadedAsset).length - Settings.FadeOutDuration)
                         {
                             if (fadeRoutine == null)
                             {
@@ -311,9 +311,9 @@ namespace LegendaryTools.Bragi
         {
             OnDispose?.Invoke(this);
             
-            if (!Config.DontUnloadAfterLoad)
+            if (!Config.AssetLoaderConfig.DontUnloadAfterLoad)
             {
-                Config.Unload();
+                Config.AssetLoaderConfig.Unload();
             }
 
             Pool.Destroy(this);

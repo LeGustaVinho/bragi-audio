@@ -82,8 +82,6 @@ namespace LegendaryTools.Bragi
         [ContextMenu("ClearLoadedRef")]
         public void ClearLoadedRef()
         {
-            Unload();
-            ClearLoadedAssetRef();
         }
 #endif
     }
