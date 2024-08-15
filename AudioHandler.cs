@@ -110,7 +110,7 @@ namespace LegendaryTools.Bragi
             ApplyAudioSettingsToSource(audioSource, settings);
             IsInitialized = true;
 
-            if (Config.AssetLoaderConfig.IsLoaded)
+            if (Config.AssetLoadableConfig.IsLoaded)
             {
                 OnAudioLoaded();
             }
@@ -213,7 +213,7 @@ namespace LegendaryTools.Bragi
 
         private void OnAudioLoaded()
         {
-            audioSource.clip = (AudioClip)Config.AssetLoaderConfig.LoadedAsset;
+            audioSource.clip = (AudioClip)Config.AssetLoadableConfig.LoadedAsset;
 
             if (!IsPaused)
             {
@@ -232,15 +232,16 @@ namespace LegendaryTools.Bragi
         
         private IEnumerator WaitAudioLoad(Action onAudioLoadCompleted)
         {
-            if (!Config.AssetLoaderConfig.IsLoaded)
+            if (!Config.AssetLoadableConfig.IsLoaded)
             {
-                if (!Config.AssetLoaderConfig.IsLoading) //Prevents loading, because the asset is being loaded
+                if (!Config.AssetLoadableConfig.IsLoading) //Prevents loading, because the asset is being loaded
                 {
-                    yield return Config.AssetLoaderConfig.Load();
+                    Config.AssetLoadableConfig.PrepareLoadRoutine<AudioClip>();
+                    yield return Config.AssetLoadableConfig.WaitLoadRoutine();
                 }
                 else
                 {
-                    yield return new WaitUntil(() => Config.AssetLoaderConfig.IsLoaded);
+                    yield return new WaitUntil(() => Config.AssetLoadableConfig.IsLoaded);
                 }
             }
             
@@ -294,7 +295,7 @@ namespace LegendaryTools.Bragi
                 {
                     if (Settings.FadeOutDuration > 0)
                     {
-                        if (Time >= ((AudioClip)Config.AssetLoaderConfig.LoadedAsset).length - Settings.FadeOutDuration)
+                        if (Time >= ((AudioClip)Config.AssetLoadableConfig.LoadedAsset).length - Settings.FadeOutDuration)
                         {
                             if (fadeRoutine == null)
                             {
@@ -311,9 +312,9 @@ namespace LegendaryTools.Bragi
         {
             OnDispose?.Invoke(this);
             
-            if (!Config.AssetLoaderConfig.DontUnloadAfterLoad)
+            if (!Config.AssetLoadableConfig.DontUnloadAfterLoad)
             {
-                Config.AssetLoaderConfig.Unload();
+                Config.AssetLoadableConfig.Unload();
             }
 
             Pool.Destroy(this);
