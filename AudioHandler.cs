@@ -75,6 +75,8 @@ namespace LegendaryTools.Bragi
             Settings = null;
             IsPaused = false;
             VirtualParent = null;
+
+            RemoveRefs();
             
             OnPlay = null;
             OnFinished  = null;
@@ -223,7 +225,6 @@ namespace LegendaryTools.Bragi
         
         private IEnumerator WaitAudioFinish()
         {
-            //yield return new WaitForEndOfFrame();
             yield return new WaitUntil(() =>!audioSource.isPlaying);
             playingRoutine = null;
             OnFinished?.Invoke(this);
@@ -308,12 +309,22 @@ namespace LegendaryTools.Bragi
             }
         }
 
+        private void RemoveRefs()
+        {
+            if (audioSource != null)
+            {
+                audioSource.clip = null;
+                audioSource.outputAudioMixerGroup = null;
+            }
+        }
+
         private void Dispose()
         {
             OnDispose?.Invoke(this);
             
             if (!Config.AssetLoadableConfig.DontUnloadAfterLoad)
             {
+                RemoveRefs();
                 Config.AssetLoadableConfig.Unload();
             }
 
